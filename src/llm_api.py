@@ -1,8 +1,9 @@
 import os
 import json
+import time
 import inspect
 from typing import get_type_hints
-from groq import Groq, AsyncGroq, RateLimitError
+from litellm import completion, acompletion, RateLimitError
 from dotenv import load_dotenv
 from enum import StrEnum
 from pydantic import BaseModel
@@ -76,16 +77,11 @@ class LLM_API:
             stop=stop_after_attempt(max_retries),
             before_sleep=lambda _: setattr(self.metrics, 'total_retries', self.metrics.total_retries + 1)
         )
-        self.client = Groq(api_key=os.getenv("GROQ_API_KEY"))
-        self._create_completion = retry(**retry_config)(self.client.chat.completions.create)
-        self.async_client = AsyncGroq(api_key=os.getenv("GROQ_API_KEY"))
-        self._async_create_completion = retry(**retry_config)(self.async_client.chat.completions.create)
+        self._create_completion = retry(**retry_config)(completion)
+        self._async_create_completion = retry(**retry_config)(acompletion)
 
         self.TYPE_MAP = {int: "integer", float: "number", str: "string", bool: "boolean", list: "array", dict: "object"}
-        if self.system_prompt:
-            self.history = [
-                {"role": "system", "content": self.system_prompt}
-            ]
+        self.history = [{"role": "system", "content": self.system_prompt}] if self.system_prompt else []
 
     def __call__(
             self,
@@ -100,14 +96,15 @@ class LLM_API:
         if tools:
             tool_schemas = self._generate_tool_schema(tools)
             available = {fn.__name__: fn for fn in tools}
+            t0 = time.perf_counter()
             response = self._create_completion(
                 model=self.model_name,
                 messages=query,
                 tools=tool_schemas,
                 tool_choice=tool_choice,
-**({"max_tokens": self.max_output_tokens} if self.max_output_tokens else {})
+                **({"max_tokens": self.max_output_tokens} if self.max_output_tokens else {})
             )
-            self.callback(response, prompt)
+            self.callback(response, prompt, elapsed=time.perf_counter() - t0)
             if self._should_compact():
                 self._compact()
             tool_calls = response.choices[0].message.tool_calls
@@ -118,6 +115,13 @@ class LLM_API:
                     args = json.loads(tc.function.arguments)
                     results[tc.function.name] = fn(**args)
                     self.metrics.total_tool_calls += 1
+                if self.keep_history:
+                    for tc in tool_calls:
+                        self.history.append({
+                            "role": "tool",
+                            "tool_call_id": tc.id,
+                            "content": str(results[tc.function.name])
+                        })
                 return results
             return response.choices[0].message.content
 
@@ -132,10 +136,11 @@ class LLM_API:
         else:
             response_format = {"type": response_type}
 
+        t0 = time.perf_counter()
         response = self._create_completion(
             model=self.model_name,
             messages=query,
-response_format=response_format,
+            response_format=response_format,
             **({"max_tokens": self.max_output_tokens} if self.max_output_tokens else {})
         )
 
@@ -147,7 +152,7 @@ response_format=response_format,
             })
 
         self.previous_response = response.choices[0].message
-        self.callback(response, prompt)
+        self.callback(response, prompt, elapsed=time.perf_counter() - t0)
         if self._should_compact():
             self._compact()
         return response.choices[0].message.content
@@ -165,14 +170,15 @@ response_format=response_format,
         if tools:
             tool_schemas = self._generate_tool_schema(tools)
             available = {fn.__name__: fn for fn in tools}
+            t0 = time.perf_counter()
             response = await self._async_create_completion(
                 model=self.model_name,
                 messages=query,
                 tools=tool_schemas,
                 tool_choice=tool_choice,
-**({"max_tokens": self.max_output_tokens} if self.max_output_tokens else {})
+                **({"max_tokens": self.max_output_tokens} if self.max_output_tokens else {})
             )
-            self.callback(response, prompt)
+            self.callback(response, prompt, elapsed=time.perf_counter() - t0)
             if self._should_compact():
                 await self._async_compact()
             tool_calls = response.choices[0].message.tool_calls
@@ -197,10 +203,11 @@ response_format=response_format,
         else:
             response_format = {"type": response_type}
 
+        t0 = time.perf_counter()
         response = await self._async_create_completion(
             model=self.model_name,
             messages=query,
-response_format=response_format,
+            response_format=response_format,
             **({"max_tokens": self.max_output_tokens} if self.max_output_tokens else {})
         )
 
@@ -212,12 +219,12 @@ response_format=response_format,
             })
 
         self.previous_response = response.choices[0].message
-        self.callback(response, prompt)
+        self.callback(response, prompt, elapsed=time.perf_counter() - t0)
         if self._should_compact():
             await self._async_compact()
         return response.choices[0].message.content
 
-    def callback(self, response, prompt: str):
+    def callback(self, response, prompt: str, elapsed: float = 0.0):
         input_tokens = response.usage.prompt_tokens
         output_tokens = response.usage.completion_tokens
 
@@ -226,8 +233,8 @@ response_format=response_format,
         self.metrics.input_cost += input_tokens * self.input_token_cpm / 1_000_000
         self.metrics.output_cost += output_tokens * self.output_token_cpm / 1_000_000
 
-        self.metrics.previous_response_time = response.usage.completion_time
-        self.metrics.total_api_time += self.metrics.previous_response_time
+        self.metrics.previous_response_time = elapsed
+        self.metrics.total_api_time += elapsed
         self.metrics.total_number_of_calls += 1
 
         if self.keep_history:
@@ -347,15 +354,35 @@ response_format=response_format,
                 f"Total Compactions: {self.metrics.total_compactions}\n"
                 f"Unnatural Stop Prompts: {len(self.metrics.unnatural_stop_prompts)}")
 
-    def reset(self):
+    def reset_history(self):
+        self.previous_response = None
+        self.history_token_pairs = []
+        self._prev_completion_tokens = 0
+        self.metrics.previous_prompt_tokens = 0
+        self.history = [{"role": "system", "content": self.system_prompt}] if self.system_prompt else []
+
+    def reset(self, log_path: str = ""):
+        if log_path:
+            m = self.metrics
+            entry = {
+                "total_input_tokens": m.total_input_tokens,
+                "total_output_tokens": m.total_output_tokens,
+                "input_cost": m.input_cost,
+                "output_cost": m.output_cost,
+                "total_api_time": m.total_api_time,
+                "total_number_of_calls": m.total_number_of_calls,
+                "total_tool_calls": m.total_tool_calls,
+                "total_retries": m.total_retries,
+                "total_compactions": m.total_compactions,
+                "unnatural_stops": len(m.unnatural_stop_prompts),
+            }
+            with open(log_path, "a") as f:
+                f.write(json.dumps(entry) + "\n")
         self.metrics = Metrics()
         self.previous_response = None
         self.history_token_pairs = []
         self._prev_completion_tokens = 0
-        if self.system_prompt:
-            self.history = [
-                {"role": "system", "content": self.system_prompt}
-            ]
+        self.history = [{"role": "system", "content": self.system_prompt}] if self.system_prompt else []
 
     def _generate_tool_schema(self, tools: list[callable]) -> list[dict]:
         schema = []
