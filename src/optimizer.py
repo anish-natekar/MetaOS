@@ -179,6 +179,9 @@ class PromptOptimizer:
         score_threshold: float = 0.7,
         min_examples_to_fix: int = 3,
         experiment_dir: str = None,
+        todo_tree=None,
+        tree_node_id: str = None,
+        tree_path: str = None,
     ) -> Workflow:
         os.makedirs(checkpoint_dir, exist_ok=True)
 
@@ -192,11 +195,14 @@ class PromptOptimizer:
         if experiment_dir:
             os.makedirs(experiment_dir, exist_ok=True)
             ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+            exp_log_path = os.path.join(experiment_dir, f"exp_{ts}.md")
             log = _ExperimentLog(
-                path=os.path.join(experiment_dir, f"exp_{ts}.md"),
+                path=exp_log_path,
                 workflow_name=self.workflow.name,
                 baseline_checkpoint=baseline_path,
             )
+        else:
+            exp_log_path = None
 
         # Initial run
         runs = self._run_all(examples)
@@ -204,6 +210,7 @@ class PromptOptimizer:
         if log:
             log.set_baseline(best_score, len(runs))
 
+        any_accepted = False
         version = 1
 
         for round_num in range(1, max_rounds + 1):
@@ -251,6 +258,7 @@ class PromptOptimizer:
                 best_score = new_score
                 best_path = ckpt_path
                 runs = new_runs
+                any_accepted = True
             else:
                 self._patch_prompt(target_id, old_prompt)  # revert
                 ckpt_path = None
@@ -275,12 +283,27 @@ class PromptOptimizer:
                     optimizer_cost=optimizer_cost,
                 )
 
+            # Update todo tree
+            if todo_tree is not None and tree_node_id is not None and exp_log_path:
+                todo_tree.link_experiment(tree_node_id, exp_log_path, accepted=accepted)
+                if tree_path:
+                    todo_tree.save(tree_path)
+
         # Write current.txt pointing to the best accepted checkpoint
         with open(os.path.join(checkpoint_dir, "current.txt"), "w") as f:
             f.write(best_path + "\n")
 
         if log:
             log.close(final_checkpoint=best_path)
+
+        # Final tree status update
+        if todo_tree is not None and tree_node_id is not None:
+            if any_accepted:
+                todo_tree.mark_status(tree_node_id, "done")
+            else:
+                todo_tree.mark_failed(tree_node_id, exp_log_path)
+            if tree_path:
+                todo_tree.save(tree_path)
 
         return self.workflow
 
@@ -682,6 +705,9 @@ Propose exactly one of these change types as a JSON object:
         max_rounds: int = 3,
         score_threshold: float = 0.7,
         experiment_dir: str = None,
+        todo_tree=None,
+        tree_node_id: str = None,
+        tree_path: str = None,
     ) -> Workflow:
         os.makedirs(checkpoint_dir, exist_ok=True)
 
@@ -693,17 +719,21 @@ Propose exactly one of these change types as a JSON object:
         if experiment_dir:
             os.makedirs(experiment_dir, exist_ok=True)
             ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+            exp_log_path = os.path.join(experiment_dir, f"wexp_{ts}.md")
             log = _ExperimentLog(
-                path=os.path.join(experiment_dir, f"wexp_{ts}.md"),
+                path=exp_log_path,
                 workflow_name=self.workflow.name,
                 baseline_checkpoint=baseline_path,
             )
+        else:
+            exp_log_path = None
 
         runs = self._run_all(examples)
         best_score = sum(r.score for r in runs) / len(runs)
         if log:
             log.set_baseline(best_score, len(runs))
 
+        any_accepted = False
         version = 1
 
         for round_num in range(1, max_rounds + 1):
@@ -748,6 +778,7 @@ Propose exactly one of these change types as a JSON object:
                 best_score = new_score
                 best_path = ckpt_path
                 runs = new_runs
+                any_accepted = True
             else:
                 # Revert
                 self.workflow._config = config_snapshot
@@ -770,11 +801,26 @@ Propose exactly one of these change types as a JSON object:
                     checkpoint_path=ckpt_path,
                 )
 
+            # Update todo tree
+            if todo_tree is not None and tree_node_id is not None and exp_log_path:
+                todo_tree.link_experiment(tree_node_id, exp_log_path, accepted=accepted)
+                if tree_path:
+                    todo_tree.save(tree_path)
+
         with open(os.path.join(checkpoint_dir, "current.txt"), "w") as f:
             f.write(best_path + "\n")
 
         if log:
             log.close(final_checkpoint=best_path)
+
+        # Final tree status update
+        if todo_tree is not None and tree_node_id is not None:
+            if any_accepted:
+                todo_tree.mark_status(tree_node_id, "done")
+            else:
+                todo_tree.mark_failed(tree_node_id, exp_log_path)
+            if tree_path:
+                todo_tree.save(tree_path)
 
         return self.workflow
 

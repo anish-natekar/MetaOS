@@ -1,8 +1,14 @@
 /experiments
 /checkpoints
 /runs
+/plan
+/tools
+/workflows
+/tests/tools
 /.venv
 /.env
+/sessions
 /.vscode
 __pycache__/
 *.pyc
+.pytest_cache/

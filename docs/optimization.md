@@ -2,6 +2,8 @@
 
 MetaOS includes an automated optimization loop that improves workflows using labeled examples. Two optimizers are available: `PromptOptimizer` rewrites individual step prompts; `WorkflowOptimizer` changes the DAG structure itself.
 
+For building workflows from scratch, see [Planning with TodoTree](#planning-with-todotree) — the `Planner` agent decomposes a goal into a `TodoTree` and the optimizers can write back to it as an institutional memory of what was tried.
+
 ---
 
 ## Dataset
@@ -296,3 +298,125 @@ Each file records, per round:
 - Decision: ACCEPTED or REVERTED
 
 Logs are written incrementally — a crash mid-run preserves all completed rounds.
+
+---
+
+## Planning with TodoTree
+
+`Planner` takes a goal string and recursively decomposes it into a hierarchical `TodoTree`. Each node records *what* it does, *why* it exists, and its current status. Failed branches are kept permanently as institutional memory so the optimizer doesn't repeat them.
+
+### Build a plan from a goal
+
+```python
+from src import Planner, TodoTree
+
+planner = Planner("groq/llama-3.3-70b-versatile", input_cpm=0.59, output_cpm=0.79)
+tree = planner.plan(
+    goal="Customer support pipeline that classifies, resolves, and replies to messages",
+    context="Tools available: lookup_invoice, check_system_status",
+    max_depth=4,
+)
+tree.save("plan/todo_tree.json")
+print(tree.get_subtree_text())
+```
+
+Each node in the tree has:
+
+| Field | Purpose |
+|-------|---------|
+| `name` | Short title (≤8 words) |
+| `description` | Abstracted solution (≤3 sentences) |
+| `why` | What problem this addresses (≤3 sentences) |
+| `status` | `pending` / `in_progress` / `done` / `failed` |
+| `is_leaf` | `True` when directly implementable by a single workflow or tool |
+| `implementation_note` | Leaf only — what implements this |
+| `workflow_ref` | Path to a linked workflow JSON |
+| `experiment_refs` | Paths to all experiment logs trialled at this node |
+
+### Link a workflow to a leaf node
+
+```python
+tree = TodoTree.from_json("plan/todo_tree.json")
+leaf_id = "a3f1"   # get from tree.get_leaves() or get_subtree_text()
+
+tree.attach_workflow(leaf_id, "plan/workflows/classify.json")
+tree.save("plan/todo_tree.json")
+```
+
+### Optimize with tree tracking
+
+Pass `todo_tree`, `tree_node_id`, and `tree_path` to either optimizer to have it write back results automatically:
+
+```python
+from src import PromptOptimizer, Dataset
+
+ds = Dataset.from_json("data/examples.json")
+train, test = ds.split()
+evaluator = train.make_evaluator("final_reply", mode="llm_judge",
+                                  judge_model="groq/llama-3.3-70b-versatile",
+                                  input_cpm=0.59, output_cpm=0.79)
+
+workflow = Workflow.from_json("plan/workflows/classify.json")
+optimizer = PromptOptimizer(workflow, evaluator, "groq/llama-3.3-70b-versatile", 0.59, 0.79)
+
+workflow = optimizer.optimize(
+    examples=train.inputs,
+    checkpoint_dir="checkpoints/",
+    experiment_dir="experiments/",
+    todo_tree=tree,
+    tree_node_id=leaf_id,
+    tree_path="plan/todo_tree.json",   # saved after every round that changes the tree
+)
+```
+
+After optimization:
+- Every experiment log path is appended to `node.experiment_refs`
+- If any round was accepted → `node.status = "done"`
+- If no round improved → `node.status = "failed"` (branch kept, never deleted)
+
+### Inspect the tree
+
+```python
+# Full tree render
+print(tree.get_subtree_text())
+
+# Compact one-level summary (useful as optimizer context)
+print(tree.summary())
+
+# Leaves that still need workflows
+leaves = tree.get_leaves()
+
+# All failed branches — what was tried and didn't work
+failures = tree.get_failed_branches()
+for node in failures:
+    print(f"{node.name}: tried {node.experiment_refs}")
+```
+
+### Extend a node manually
+
+Add child nodes to an existing node to model a new sub-problem discovered during optimization:
+
+```python
+child_id = tree.add_node(
+    parent_id=leaf_id,
+    name="Handle invoice lookup failures",
+    description="Gracefully recover when lookup_invoice returns an error.",
+    why="5% of billing disputes fail because the invoice ID is missing or malformed.",
+    is_leaf=True,
+    implementation_note="Add a fallback React step that prompts user for a valid ID.",
+)
+tree.save("plan/todo_tree.json")
+```
+
+Or use `Planner.extend()` to decompose an existing node automatically:
+
+```python
+tree = planner.extend(tree, node_id=leaf_id, context="lookup_invoice can return None")
+tree.save("plan/todo_tree.json")
+```
+
+### Loading an existing tree
+
+```python
+tree = TodoTree.from_json("plan/todo_tree.json")
+```

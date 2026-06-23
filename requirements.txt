@@ -2,3 +2,10 @@ litellm>=1.89.0
 pydantic>=2.0.0
 tenacity>=8.0.0
 python-dotenv>=1.0.0
+rich>=13.0.0
+textual>=0.61.0
+
+# dev
+pytest>=8.0.0
+pytest-cov>=5.0.0
+mkdocs-material>=9.5.0

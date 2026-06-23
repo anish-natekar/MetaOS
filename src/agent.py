@@ -112,7 +112,34 @@ class React(Agentic_Operator):
         super().__init__(name, model_name, input_token_cpm, output_token_cpm, n=n, system_prompt=system_prompt, **llm_kwargs)
 
     def _call(self, prompt: str, tools: list[callable], max_iterations: int = 5,
-              response_type=ResponseType.TEXT, response_basemodel=None):
+              response_type=ResponseType.TEXT, response_basemodel=None, registry=None):
+        tools = list(tools)  # local copy — don't mutate caller's list
+
+        if registry is not None:
+            from .tool_forge import ToolSynthesizer  # lazy import to avoid circular dep
+
+            synthesizer = ToolSynthesizer(
+                model=self._init_params["model_name"],
+                input_cpm=self._init_params["input_token_cpm"],
+                output_cpm=self._init_params["output_token_cpm"],
+                registry=registry,
+            )
+
+            def forge_tool(description: str, signature: str) -> str:
+                """Create and register a new Python tool. It is immediately available in this session.
+                description: one-sentence description of what the function should do.
+                signature: Python parameter+return signature, e.g. '(x: int, y: int) -> int'
+                """
+                try:
+                    record = synthesizer.synthesize(description=description, signature=signature)
+                    fn = registry.load_as_callable(record.name)
+                    tools.append(fn)  # mutates local list; picked up on next LLM call
+                    return f"Tool '{record.name}' created and registered. You can now call it."
+                except Exception as e:
+                    return f"Tool creation failed: {e}"
+
+            tools.append(forge_tool)
+
         result = self.llm(prompt, tools=tools)
 
         for _ in range(max_iterations - 1):

@@ -69,9 +69,10 @@ class WorkflowState:
 
 
 class Workflow:
-    def __init__(self, config: dict, tools: dict[str, callable] = None, base_dir: str = "."):
+    def __init__(self, config: dict, tools: dict[str, callable] = None, base_dir: str = ".", registry=None):
         self.name = config.get("name", "workflow")
         self.tools = tools or {}
+        self.registry = registry
         self._config = config
         self.base_dir = base_dir
         self.steps = [self._parse_step(s) for s in config["steps"]]
@@ -80,12 +81,12 @@ class Workflow:
         self.state: dict = {}
 
     @classmethod
-    def from_json(cls, path: str, tools: dict[str, callable] = None) -> "Workflow":
+    def from_json(cls, path: str, tools: dict[str, callable] = None, registry=None) -> "Workflow":
         with open(path) as f:
-            return cls(json.load(f), tools, base_dir=os.path.dirname(os.path.abspath(path)))
+            return cls(json.load(f), tools, base_dir=os.path.dirname(os.path.abspath(path)), registry=registry)
 
     @classmethod
-    def from_checkpoint(cls, path: str, tools: dict[str, callable] = None) -> "Workflow":
+    def from_checkpoint(cls, path: str, tools: dict[str, callable] = None, registry=None) -> "Workflow":
         with open(path) as f:
             data = json.load(f)
         config = data["workflow"]
@@ -94,7 +95,7 @@ class Workflow:
             if step["id"] in prompts:
                 step["prompt"] = prompts[step["id"]]
                 step.pop("prompt_file", None)
-        return cls(config, tools)
+        return cls(config, tools, registry=registry)
 
     def _parse_step(self, cfg: dict) -> WorkflowStep:
         if "prompt_file" in cfg:
@@ -137,10 +138,23 @@ class Workflow:
 
             runtime_kw = {}
             if "tools" in cfg:
-                missing = [t for t in cfg["tools"] if t not in self.tools]
+                resolved: list[callable] = []
+                missing: list[str] = []
+                for t in cfg["tools"]:
+                    if t in self.tools:
+                        resolved.append(self.tools[t])
+                    elif self.registry is not None and self.registry.has(t):
+                        fn = self.registry.load_as_callable(t)
+                        self.tools[t] = fn  # cache so subsequent lookups are O(1)
+                        resolved.append(fn)
+                    else:
+                        missing.append(t)
                 if missing:
-                    raise ValueError(f"Operator '{name}' references unregistered tools: {missing}")
-                runtime_kw["tools"] = [self.tools[t] for t in cfg["tools"]]
+                    raise ValueError(
+                        f"Operator '{name}' references unregistered tools: {missing}. "
+                        "Pass these callables via the tools= param or register them in a ToolRegistry."
+                    )
+                runtime_kw["tools"] = resolved
             if "max_iterations" in cfg:
                 runtime_kw["max_iterations"] = cfg["max_iterations"]
             call_kwargs[name] = runtime_kw

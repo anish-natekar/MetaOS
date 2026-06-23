@@ -2,7 +2,7 @@
 
 A Python framework for building, running, and automatically optimizing multi-step AI agent workflows.
 
-Define your pipeline as a JSON file. MetaOS executes it as a DAG, handles parallelism, routes between agents, and provides an optimizer that rewrites prompts and restructures the workflow automatically using labeled examples.
+The fastest way to use it is to run `python cli.py` and chat with the **MetaOS Agent** — describe a goal and it plans, writes, tests, and optimizes the full pipeline for you. You can also use every component individually as a Python library.
 
 ---
 
@@ -16,6 +16,15 @@ Define your pipeline as a JSON file. MetaOS executes it as a DAG, handles parall
 | `Dataset` | Labeled example store with train/test split and evaluator factory (exact match or LLM judge) |
 | `PromptOptimizer` | Backward-pass loop that finds failing steps and rewrites their prompts |
 | `WorkflowOptimizer` | Structural optimizer that adds, removes, or rewires DAG steps |
+| `Planner` | Recursively decomposes a goal into a `TodoTree` using structured LLM output |
+| `TodoTree` | Hierarchical goal decomposition tree — records what was tried, what failed, and what worked |
+| `ToolSynthesizer` | LLM-generates a Python function from a description, sandbox-tests it, iterates on failures |
+| `ToolRegistry` | Persistent tool store — save, load, search, and compile synthesized tools |
+| `ToolOptimizer` | Iteratively improves an existing tool against test cases (accept/revert loop) |
+| `DataSynthesizer` | Generates synthetic labeled (inputs, expected) pairs for optimization; optionally grounded in web search |
+| `WorkflowRegistry` | Persistent workflow store — save, load, and search workflow configs by name/tag |
+| **`MetaOSAgent`** | **Top-level conversational orchestrator — chat to design, build, and optimize full AI pipelines** |
+| **`cli.py`** | **Textual terminal UI for MetaOSAgent — multi-panel chat, live sidebar, slash commands, session save/load** |
 
 ---
 
@@ -262,17 +271,28 @@ print(results)
 ## File layout
 
 ```
+cli.py             — Textual TUI entry point (python cli.py)
+
 src/
   __init__.py      — public API
   llm_api.py       — LiteLLM wrapper with history, retries, metrics
   agent.py         — Predict, CoT, React, Router operators
   workflow.py      — DAG workflow engine
   optimizer.py     — PromptOptimizer, WorkflowOptimizer, Dataset
+  planner.py       — TodoNode, TodoTree, Planner
+  tool_forge.py    — ToolRecord, ToolRegistry, ToolSynthesizer, ToolOptimizer
+  data_synth.py    — DataSynthesizer (synthetic data generation + web grounding)
+  meta_agent.py    — MetaOSAgent, WorkflowRegistry, WorkflowBuilder
 
 docs/
   workflow.md      — full workflow reference
-  optimization.md  — optimization and evaluation reference
+  optimization.md  — optimization, evaluation, and planning reference
 
+sessions/          — saved TUI sessions (ui_messages + llm_history)
+plan/              — TodoTree JSON and linked workflow files
+tools/             — synthesized tool store (one .json per tool + _index.json)
+workflows/         — workflow registry (one .json per workflow + _index.json)
+tests/tools/       — auto-generated pytest files for synthesized tools
 experiments/       — auto-generated experiment logs (one .md per run)
 checkpoints/       — auto-generated workflow version snapshots
 runs/              — auto-generated per-run state and metrics logs
@@ -293,7 +313,203 @@ MetaOS uses [LiteLLM](https://github.com/BerriAI/litellm) so any provider works 
 
 ---
 
+## MetaOS Agent — chat to build AI systems
+
+`MetaOSAgent` is the top-level interface. Give it a goal in plain English; it plans, builds, tests, and optimizes the full pipeline — tools, workflows, prompts — without you writing any config by hand.
+
+### Quickest start — terminal UI
+
+```bash
+python cli.py
+```
+
+This opens a multi-panel TUI: chat on the left, live tree / tool / workflow sidebar on the right, inline cost tracker, and tool-call progress as the agent works.
+
+```
+┌─ MetaOS ─────────────────────────────── $0.00421 • 3 calls ─┐
+│                          │  Planning Tree                    │
+│  You › Build me a        │  ─────────────────────────────    │
+│  support pipeline        │  [in_progress] Customer Support   │
+│                          │    [done] classify_message        │
+│  MetaOS ›                │    [pending] write_reply          │
+│    → plan_goal           │                                   │
+│    → search_tools        │  Tools (1)                        │
+│    → build_tool          │  ─────────────────────────────    │
+│                          │  classify_message(msg) → str      │
+│  Here's your plan:       │                                   │
+│  ...                     │  Workflows (0)                    │
+│                          │  None yet                         │
+├──────────────────────────┴───────────────────────────────────┤
+│ > Type a message or /help for commands…           [Ctrl+C]   │
+└──────────────────────────────────────────────────────────────┘
+```
+
+#### CLI options
+
+```bash
+python cli.py --model anthropic/claude-sonnet-4-6
+python cli.py --model openai/gpt-4o --session sessions/my_session.json
+```
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--model` | `groq/llama-3.3-70b-versatile` | LiteLLM model string |
+| `--input-cpm` | `0.59` | Cost per million input tokens (USD) |
+| `--output-cpm` | `0.79` | Cost per million output tokens (USD) |
+| `--session` | — | Path to a saved session JSON to load on startup |
+| `--tools-dir` | `tools/` | Directory for the tool registry |
+| `--workflows-dir` | `workflows/` | Directory for the workflow registry |
+
+Default model and CPM values can also be set in `.env`:
+
+```
+METAOS_MODEL=anthropic/claude-sonnet-4-6
+METAOS_INPUT_CPM=3.0
+METAOS_OUTPUT_CPM=15.0
+```
+
+#### Slash commands
+
+| Command | Action |
+|---------|--------|
+| `/help` | Show all commands |
+| `/tree` | Print the current planning tree |
+| `/tools` | List every tool in the registry |
+| `/workflows` | List every workflow in the registry |
+| `/cost` | Show session cost, API call count, tool call count |
+| `/save [name]` | Save conversation to `sessions/{name}.json` |
+| `/load [name]` | Load a saved session (lists available sessions if no name given) |
+| `/reset` | Start a fresh session (keeps tool/workflow registries) |
+
+Keyboard shortcuts: `Ctrl+S` save · `Ctrl+R` reset · `Ctrl+C` quit.
+
+#### Session persistence
+
+Sessions are saved to `sessions/{name}.json` and include the full conversation display, the raw LLM history (so the agent remembers context), and a pointer to the planning tree. Resume any past session with `/load` or `--session`.
+
+---
+
+### Python API
+
+Use `MetaOSAgent` directly if you want to integrate it into a script or notebook:
+
+```python
+from src import MetaOSAgent
+
+agent = MetaOSAgent("groq/llama-3.3-70b-versatile", 0.59, 0.79)
+
+# 1. Give a goal — agent plans and waits for approval
+print(agent.chat(
+    "Build a customer support pipeline that classifies messages and writes tailored replies"
+))
+
+# 2. Approve the plan — agent builds tools and workflows bottom-up
+print(agent.chat("The plan looks good, go ahead and build it"))
+
+# 3. Generate test data and optimize
+print(agent.chat(
+    "Generate 20 test examples and run prompt optimization on the classifier"
+))
+
+# 4. Reuse in a new session (registries persist across resets)
+agent.reset_session()
+print(agent.chat(
+    "I need another pipeline that handles refunds — reuse the classifier if possible"
+))
+# Agent calls search_tools() → finds the existing tool → reuses it
+```
+
+**What the agent does automatically:**
+- Searches the tool and workflow registries before creating anything new
+- Decomposes goals into a `TodoTree` and presents it for approval
+- Builds tools bottom-up (leaf nodes first), sandbox-tests each one
+- Generates workflow JSON configs with operator docs embedded in context
+- Generates synthetic test data (or uses web search as grounding)
+- Runs `PromptOptimizer` / `WorkflowOptimizer` / `ToolOptimizer` per node
+- Updates the `TodoTree` with pass/fail status and experiment log references
+- Writes pytest files for every synthesized tool
+
+---
+
+## Tool Forge — agentic tool creation
+
+Agents can generate, test, and persist their own Python utility functions at runtime.
+
+### Synthesize a tool from a description
+
+```python
+from src import ToolRegistry, ToolSynthesizer
+
+registry = ToolRegistry("tools/")
+synth = ToolSynthesizer("groq/llama-3.3-70b-versatile", 0.59, 0.79, registry)
+
+record = synth.synthesize(
+    description="Calculate compound interest given principal, annual rate, and years",
+    signature="(principal: float, rate: float, years: int) -> float",
+    test_cases=[
+        {"args": {"principal": 1000, "rate": 0.05, "years": 1}, "expected": 1050.0},
+    ],
+    tags=["finance"],
+)
+
+fn = registry.load_as_callable(record.name)
+print(fn(1000, 0.05, 3))   # 1157.625
+```
+
+The synthesizer generates Python source, runs it in a subprocess sandbox, retries on failure, and saves the validated function to the registry.
+
+### React agent with live tool creation
+
+Give a React agent a `registry` and it gains a built-in `forge_tool` meta-tool. If the agent determines it needs a function that doesn't exist, it can create one mid-reasoning:
+
+```python
+from src import React, ToolRegistry
+
+registry = ToolRegistry("tools/")
+agent = React("agent", "groq/llama-3.3-70b-versatile", 0.59, 0.79)
+
+result = agent(
+    "Calculate compound interest on $5000 at 7% for 10 years",
+    tools=[],
+    registry=registry,
+)
+# Agent calls forge_tool("calculate compound interest", "(p: float, r: float, n: int) -> float")
+# then calls the newly created function in the same session
+```
+
+### Workflow with registry auto-resolution
+
+Tools in a workflow config are auto-loaded from the registry if not passed manually:
+
+```python
+from src import Workflow, ToolRegistry
+
+registry = ToolRegistry("tools/")
+workflow = Workflow.from_json("workflow.json", registry=registry)
+# Any tool name in operator config resolved from registry automatically
+```
+
+### Optimize an existing tool
+
+```python
+from src import ToolOptimizer, ToolRegistry
+
+registry = ToolRegistry("tools/")
+opt = ToolOptimizer("groq/llama-3.3-70b-versatile", 0.59, 0.79, registry)
+
+record = opt.optimize(
+    "compound_interest",
+    test_cases=[
+        {"args": {"principal": 1000, "rate": 0.1, "years": 3}, "expected": 1331.0},
+    ],
+    max_rounds=3,
+)
+```
+
+---
+
 ## Documentation
 
 - [Workflow reference](docs/workflow.md) — JSON schema, state, templates, tools, async, metrics
 - [Optimization reference](docs/optimization.md) — Dataset, evaluators, PromptOptimizer, WorkflowOptimizer, experiment logs
+- [Operator reference](docs/operators.md) — compact field reference for all operator types with JSON examples
