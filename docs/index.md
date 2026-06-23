@@ -31,7 +31,7 @@ The fastest way to use it is to run `python cli.py` and chat with the **MetaOS A
 ## Installation
 
 ```bash
-git clone https://github.com/anishsan/MetaOS.git
+git clone https://github.com/anish-natekar/MetaOS.git
 cd MetaOS
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
