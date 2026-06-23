@@ -1,0 +1,1477 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Build, run, and optimize multi-step AI agent workflows">
+      
+      
+      
+      
+        <link rel="prev" href="../workflow/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Optimization & Planning - MetaOS</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#optimization" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="MetaOS" class="md-header__button md-logo" aria-label="MetaOS" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MetaOS
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Optimization & Planning
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/anishsan/MetaOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MetaOS
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../operators/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Operators
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../workflow/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Workflows
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Optimization & Planning
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MetaOS" class="md-nav__button md-logo" aria-label="MetaOS" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MetaOS
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/anishsan/MetaOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MetaOS
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optimization & Planning
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optimization & Planning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dataset">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json-file-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON file format
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluators
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Evaluators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exact-match" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact match
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llm-judge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LLM judge
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-evaluator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom evaluator
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluating-a-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluating a workflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#promptoptimizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PromptOptimizer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PromptOptimizer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-happens-each-round" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What happens each round
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checkpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoints
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workflowoptimizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WorkflowOptimizer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WorkflowOptimizer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supported-structural-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supported structural changes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typical-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Typical workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#experiment-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Experiment Logs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#planning-with-todotree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Planning with TodoTree
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Planning with TodoTree">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#build-a-plan-from-a-goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build a plan from a goal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#link-a-workflow-to-a-leaf-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Link a workflow to a leaf node
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimize-with-tree-tracking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimize with tree tracking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inspect-the-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspect the tree
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extend-a-node-manually" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extend a node manually
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loading-an-existing-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loading an existing tree
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dataset">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json-file-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON file format
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluators
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Evaluators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exact-match" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact match
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llm-judge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LLM judge
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-evaluator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom evaluator
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluating-a-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluating a workflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#promptoptimizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PromptOptimizer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PromptOptimizer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-happens-each-round" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What happens each round
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checkpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoints
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workflowoptimizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WorkflowOptimizer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WorkflowOptimizer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supported-structural-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supported structural changes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typical-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Typical workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#experiment-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Experiment Logs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#planning-with-todotree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Planning with TodoTree
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Planning with TodoTree">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#build-a-plan-from-a-goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build a plan from a goal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#link-a-workflow-to-a-leaf-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Link a workflow to a leaf node
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimize-with-tree-tracking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimize with tree tracking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inspect-the-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspect the tree
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extend-a-node-manually" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extend a node manually
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loading-an-existing-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loading an existing tree
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="optimization">Optimization<a class="headerlink" href="#optimization" title="Permanent link">&para;</a></h1>
+<p>MetaOS includes an automated optimization loop that improves workflows using labeled examples. Two optimizers are available: <code>PromptOptimizer</code> rewrites individual step prompts; <code>WorkflowOptimizer</code> changes the DAG structure itself.</p>
+<p>For building workflows from scratch, see <a href="#planning-with-todotree">Planning with TodoTree</a> — the <code>Planner</code> agent decomposes a goal into a <code>TodoTree</code> and the optimizers can write back to it as an institutional memory of what was tried.</p>
+<hr />
+<h2 id="dataset">Dataset<a class="headerlink" href="#dataset" title="Permanent link">&para;</a></h2>
+<p>A <code>Dataset</code> holds labeled <code>(inputs, expected_output)</code> pairs used for training and evaluation.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">src</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># Load from a JSON file</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">ds</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="s2">&quot;data/examples.json&quot;</span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># Or build from a list</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">ds</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">from_list</span><span class="p">([</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="p">{</span><span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;I was charged twice&quot;</span><span class="p">},</span> <span class="s2">&quot;expected&quot;</span><span class="p">:</span> <span class="s2">&quot;billing&quot;</span><span class="p">},</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="p">{</span><span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;My app keeps crashing&quot;</span><span class="p">},</span> <span class="s2">&quot;expected&quot;</span><span class="p">:</span> <span class="s2">&quot;technical&quot;</span><span class="p">},</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">])</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="c1"># Split into train / test</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="nb">print</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>   <span class="c1"># Dataset(8 examples)</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="nb">print</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>    <span class="c1"># Dataset(2 examples)</span>
+</span></code></pre></div>
+<h3 id="json-file-format">JSON file format<a class="headerlink" href="#json-file-format" title="Permanent link">&para;</a></h3>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">[</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="p">{</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;I was charged twice this month&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;customer_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USR-001&quot;</span><span class="p">},</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nt">&quot;expected&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;billing&quot;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="p">{</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The app crashes on startup&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;customer_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USR-002&quot;</span><span class="p">},</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nt">&quot;expected&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;technical&quot;</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="p">]</span>
+</span></code></pre></div>
+<p>If your file uses different key names, pass <code>inputs_key</code> and <code>expected_key</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">ds</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="s2">&quot;data.json&quot;</span><span class="p">,</span> <span class="n">inputs_key</span><span class="o">=</span><span class="s2">&quot;query&quot;</span><span class="p">,</span> <span class="n">expected_key</span><span class="o">=</span><span class="s2">&quot;label&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="evaluators">Evaluators<a class="headerlink" href="#evaluators" title="Permanent link">&para;</a></h2>
+<p>An evaluator is a function <code>(inputs: dict, state: dict) -&gt; float</code> that scores a single workflow run from 0.0 (completely wrong) to 1.0 (perfect). <code>Dataset.make_evaluator()</code> creates one automatically.</p>
+<h3 id="exact-match">Exact match<a class="headerlink" href="#exact-match" title="Permanent link">&para;</a></h3>
+<p>Best for classification tasks — Router routing, short categorical answers.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">evaluator</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">make_evaluator</span><span class="p">(</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="n">output_key</span><span class="o">=</span><span class="s2">&quot;department&quot;</span><span class="p">,</span>    <span class="c1"># which state key to score</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;exact_match&quot;</span><span class="p">,</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>Returns 1.0 if <code>state["department"]</code> matches the expected string (case-insensitive), else 0.0.</p>
+<h3 id="llm-judge">LLM judge<a class="headerlink" href="#llm-judge" title="Permanent link">&para;</a></h3>
+<p>Best for open-ended outputs — CoT answers, written replies.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">evaluator</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">make_evaluator</span><span class="p">(</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="n">output_key</span><span class="o">=</span><span class="s2">&quot;final_reply&quot;</span><span class="p">,</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;llm_judge&quot;</span><span class="p">,</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="n">judge_model</span><span class="o">=</span><span class="s2">&quot;groq/llama-3.3-70b-versatile&quot;</span><span class="p">,</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="n">input_cpm</span><span class="o">=</span><span class="mf">0.59</span><span class="p">,</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">output_cpm</span><span class="o">=</span><span class="mf">0.79</span><span class="p">,</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>An LLM compares the produced output to the expected output and returns a score from 0.0 to 1.0.</p>
+<h3 id="custom-evaluator">Custom evaluator<a class="headerlink" href="#custom-evaluator" title="Permanent link">&para;</a></h3>
+<p>Write your own — just match the signature:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">my_evaluator</span><span class="p">(</span><span class="n">inputs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="n">reply</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;final_reply&quot;</span><span class="p">,</span> <span class="p">{})</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">answer</span> <span class="o">=</span> <span class="n">reply</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;answer&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reply</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="n">reply</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="c1"># compare to expected, run checks, etc.</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="k">return</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="s2">&quot;sorry&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">answer</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">else</span> <span class="mf">0.0</span>
+</span></code></pre></div>
+<hr />
+<h2 id="evaluating-a-workflow">Evaluating a workflow<a class="headerlink" href="#evaluating-a-workflow" title="Permanent link">&para;</a></h2>
+<p>Run every example through the workflow and get aggregate metrics:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">results</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="n">workflow</span><span class="o">=</span><span class="n">workflow</span><span class="p">,</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">output_key</span><span class="o">=</span><span class="s2">&quot;department&quot;</span><span class="p">,</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">evaluator</span><span class="o">=</span><span class="n">evaluator</span><span class="p">,</span>    <span class="c1"># optional — defaults to exact_match</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">)</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># {</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="c1">#   &quot;avg_score&quot;: 0.87,</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1">#   &quot;n_examples&quot;: 10,</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="c1">#   &quot;n_passing&quot;: 9,       # score &gt;= 0.7</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="c1">#   &quot;scores&quot;: [1.0, 0.5, 1.0, ...]</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="c1"># }</span>
+</span></code></pre></div>
+<hr />
+<h2 id="promptoptimizer">PromptOptimizer<a class="headerlink" href="#promptoptimizer" title="Permanent link">&para;</a></h2>
+<p>Runs a backward-pass loop: finds which step first went wrong in failing runs, rewrites that step's prompt, re-evaluates, and keeps the change only if the overall score improved.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">src</span><span class="w"> </span><span class="kn">import</span> <span class="n">PromptOptimizer</span><span class="p">,</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">Workflow</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">workflow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="s2">&quot;my_workflow/workflow.json&quot;</span><span class="p">)</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">ds</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="s2">&quot;data/examples.json&quot;</span><span class="p">)</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">evaluator</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">make_evaluator</span><span class="p">(</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    <span class="n">output_key</span><span class="o">=</span><span class="s2">&quot;final_reply&quot;</span><span class="p">,</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;llm_judge&quot;</span><span class="p">,</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>    <span class="n">judge_model</span><span class="o">=</span><span class="s2">&quot;groq/llama-3.3-70b-versatile&quot;</span><span class="p">,</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>    <span class="n">input_cpm</span><span class="o">=</span><span class="mf">0.59</span><span class="p">,</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>    <span class="n">output_cpm</span><span class="o">=</span><span class="mf">0.79</span><span class="p">,</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="p">)</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="n">optimizer</span> <span class="o">=</span> <span class="n">PromptOptimizer</span><span class="p">(</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>    <span class="n">workflow</span><span class="o">=</span><span class="n">workflow</span><span class="p">,</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>    <span class="n">evaluator</span><span class="o">=</span><span class="n">evaluator</span><span class="p">,</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>    <span class="n">optimizer_model</span><span class="o">=</span><span class="s2">&quot;groq/llama-3.3-70b-versatile&quot;</span><span class="p">,</span>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>    <span class="n">input_cpm</span><span class="o">=</span><span class="mf">0.59</span><span class="p">,</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>    <span class="n">output_cpm</span><span class="o">=</span><span class="mf">0.79</span><span class="p">,</span>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="p">)</span>
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="n">improved</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span>
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>    <span class="n">examples</span><span class="o">=</span><span class="n">train</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span>
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>    <span class="n">checkpoint_dir</span><span class="o">=</span><span class="s2">&quot;checkpoints/&quot;</span><span class="p">,</span>
+</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>    <span class="n">max_rounds</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>    <span class="n">score_threshold</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>       <span class="c1"># runs below this score are &quot;failing&quot;</span>
+</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a>    <span class="n">min_examples_to_fix</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>     <span class="c1"># stop if fewer than this many failures remain</span>
+</span><span id="__span-7-29"><a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a>    <span class="n">experiment_dir</span><span class="o">=</span><span class="s2">&quot;experiments/&quot;</span><span class="p">,</span>  <span class="c1"># optional — writes a .md log per run</span>
+</span><span id="__span-7-30"><a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="p">)</span>
+</span><span id="__span-7-31"><a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a>
+</span><span id="__span-7-32"><a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="c1"># Evaluate on held-out test set</span>
+</span><span id="__span-7-33"><a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a><span class="nb">print</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">improved</span><span class="p">,</span> <span class="n">output_key</span><span class="o">=</span><span class="s2">&quot;final_reply&quot;</span><span class="p">,</span> <span class="n">evaluator</span><span class="o">=</span><span class="n">evaluator</span><span class="p">))</span>
+</span></code></pre></div>
+<h3 id="what-happens-each-round">What happens each round<a class="headerlink" href="#what-happens-each-round" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>1. Run all training examples → collect (inputs, state, score) per run
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>2. Split into passing (score ≥ threshold) and failing
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>3. For each failing run: ask LLM judge which step first went wrong
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>4. Pick the step with the most attributed failures
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>5. Call optimizer LLM → generate improved prompt for that step
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>6. Patch the workflow with the new prompt
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>7. Re-run all examples → measure new overall score
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>8. Accept (save checkpoint) if score improved, revert otherwise
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>9. Repeat for max_rounds
+</span></code></pre></div>
+<h3 id="checkpoints">Checkpoints<a class="headerlink" href="#checkpoints" title="Permanent link">&para;</a></h3>
+<p>Every accepted round is saved as a checkpoint. <code>current.txt</code> always points to the best version:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>checkpoints/
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>  v1.json       ← baseline
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>  v2.json       ← after round 1 (avg_score=0.84)
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>  v3.json       ← after round 2 (avg_score=0.89)
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>  current.txt   ← &quot;checkpoints/v3.json&quot;
+</span></code></pre></div>
+<p>Manual rollback:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">workflow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="o">.</span><span class="n">from_checkpoint</span><span class="p">(</span><span class="s2">&quot;checkpoints/v2.json&quot;</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">{</span><span class="o">...</span><span class="p">})</span>
+</span></code></pre></div>
+<hr />
+<h2 id="workflowoptimizer">WorkflowOptimizer<a class="headerlink" href="#workflowoptimizer" title="Permanent link">&para;</a></h2>
+<p>When prompt optimization plateaus, <code>WorkflowOptimizer</code> proposes structural changes to the DAG: adding steps, removing steps, or rewiring dependencies.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">src</span><span class="w"> </span><span class="kn">import</span> <span class="n">WorkflowOptimizer</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">wopt</span> <span class="o">=</span> <span class="n">WorkflowOptimizer</span><span class="p">(</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="n">workflow</span><span class="o">=</span><span class="n">workflow</span><span class="p">,</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    <span class="n">evaluator</span><span class="o">=</span><span class="n">evaluator</span><span class="p">,</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="n">optimizer_model</span><span class="o">=</span><span class="s2">&quot;groq/llama-3.3-70b-versatile&quot;</span><span class="p">,</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    <span class="n">input_cpm</span><span class="o">=</span><span class="mf">0.59</span><span class="p">,</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>    <span class="n">output_cpm</span><span class="o">=</span><span class="mf">0.79</span><span class="p">,</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="p">)</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="n">improved</span> <span class="o">=</span> <span class="n">wopt</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>    <span class="n">examples</span><span class="o">=</span><span class="n">train</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>    <span class="n">checkpoint_dir</span><span class="o">=</span><span class="s2">&quot;checkpoints/&quot;</span><span class="p">,</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>    <span class="n">max_rounds</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>    <span class="n">score_threshold</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>    <span class="n">experiment_dir</span><span class="o">=</span><span class="s2">&quot;experiments/&quot;</span><span class="p">,</span>
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="supported-structural-changes">Supported structural changes<a class="headerlink" href="#supported-structural-changes" title="Permanent link">&para;</a></h3>
+<p>The optimizer proposes one of three change types per round:</p>
+<p><strong><code>add_step</code></strong> — insert a new step that uses an existing operator:
+<div class="language-json highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="p">{</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;add_step&quot;</span><span class="p">,</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="nt">&quot;step&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fetch_history&quot;</span><span class="p">,</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="nt">&quot;operator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;data_agent&quot;</span><span class="p">,</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="nt">&quot;prompt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Fetch account history for customer {customer_id}.&quot;</span><span class="p">,</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;account_history&quot;</span><span class="p">,</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">    </span><span class="nt">&quot;depends_on&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;classify&quot;</span><span class="p">],</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">    </span><span class="nt">&quot;condition&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="w">  </span><span class="nt">&quot;rationale&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Billing agent needs account history to resolve disputes.&quot;</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<p><strong><code>remove_step</code></strong> — remove a step, providing new dependencies for anything that depended on it:
+<div class="language-json highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="p">{</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;remove_step&quot;</span><span class="p">,</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="nt">&quot;step_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;intermediate_check&quot;</span><span class="p">,</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span><span class="nt">&quot;update_depends_on&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="nt">&quot;write_reply&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;handle_billing&quot;</span><span class="p">]</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">  </span><span class="nt">&quot;rationale&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The check step adds latency without improving accuracy.&quot;</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<p><strong><code>change_depends_on</code></strong> — rewire a step to fire earlier or later:
+<div class="language-json highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="p">{</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;change_depends_on&quot;</span><span class="p">,</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="nt">&quot;step_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;write_reply&quot;</span><span class="p">,</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">  </span><span class="nt">&quot;new_depends_on&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;handle_billing&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;handle_tech&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;handle_general&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;fetch_history&quot;</span><span class="p">],</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">  </span><span class="nt">&quot;rationale&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;write_reply should also see the account history.&quot;</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<p>All proposals are validated (no cycles, no duplicate IDs, no missing operators) before being applied. Invalid proposals are logged and skipped.</p>
+<h3 id="typical-workflow">Typical workflow<a class="headerlink" href="#typical-workflow" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># 1. Prompt optimization first</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="n">p_optimizer</span> <span class="o">=</span> <span class="n">PromptOptimizer</span><span class="p">(</span><span class="n">workflow</span><span class="p">,</span> <span class="n">evaluator</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">cpm_in</span><span class="p">,</span> <span class="n">cpm_out</span><span class="p">)</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="n">workflow</span> <span class="o">=</span> <span class="n">p_optimizer</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">train</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="s2">&quot;checkpoints/&quot;</span><span class="p">,</span> <span class="n">max_rounds</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="c1"># 2. Structural optimization if prompt opt plateaued</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="n">w_optimizer</span> <span class="o">=</span> <span class="n">WorkflowOptimizer</span><span class="p">(</span><span class="n">workflow</span><span class="p">,</span> <span class="n">evaluator</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">cpm_in</span><span class="p">,</span> <span class="n">cpm_out</span><span class="p">)</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="n">workflow</span> <span class="o">=</span> <span class="n">w_optimizer</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">train</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="s2">&quot;checkpoints/&quot;</span><span class="p">,</span> <span class="n">max_rounds</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="c1"># 3. Evaluate final result on test set</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="nb">print</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">workflow</span><span class="p">,</span> <span class="n">output_key</span><span class="o">=</span><span class="s2">&quot;final_reply&quot;</span><span class="p">,</span> <span class="n">evaluator</span><span class="o">=</span><span class="n">evaluator</span><span class="p">))</span>
+</span></code></pre></div>
+<hr />
+<h2 id="experiment-logs">Experiment Logs<a class="headerlink" href="#experiment-logs" title="Permanent link">&para;</a></h2>
+<p>Pass <code>experiment_dir</code> to either optimizer to get a human-readable <code>.md</code> log per run:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>experiments/
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>  exp_20260623_143022.md    ← PromptOptimizer run
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>  wexp_20260624_091500.md   ← WorkflowOptimizer run
+</span></code></pre></div>
+<p>Each file records, per round:
+- Optimization type and target step
+- Issues detected (failing examples)
+- Prompt or structural change proposed
+- Metrics before and after (avg score, failing count, optimizer cost)
+- Decision: ACCEPTED or REVERTED</p>
+<p>Logs are written incrementally — a crash mid-run preserves all completed rounds.</p>
+<hr />
+<h2 id="planning-with-todotree">Planning with TodoTree<a class="headerlink" href="#planning-with-todotree" title="Permanent link">&para;</a></h2>
+<p><code>Planner</code> takes a goal string and recursively decomposes it into a hierarchical <code>TodoTree</code>. Each node records <em>what</em> it does, <em>why</em> it exists, and its current status. Failed branches are kept permanently as institutional memory so the optimizer doesn't repeat them.</p>
+<h3 id="build-a-plan-from-a-goal">Build a plan from a goal<a class="headerlink" href="#build-a-plan-from-a-goal" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">src</span><span class="w"> </span><span class="kn">import</span> <span class="n">Planner</span><span class="p">,</span> <span class="n">TodoTree</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="n">planner</span> <span class="o">=</span> <span class="n">Planner</span><span class="p">(</span><span class="s2">&quot;groq/llama-3.3-70b-versatile&quot;</span><span class="p">,</span> <span class="n">input_cpm</span><span class="o">=</span><span class="mf">0.59</span><span class="p">,</span> <span class="n">output_cpm</span><span class="o">=</span><span class="mf">0.79</span><span class="p">)</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="n">tree</span> <span class="o">=</span> <span class="n">planner</span><span class="o">.</span><span class="n">plan</span><span class="p">(</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>    <span class="n">goal</span><span class="o">=</span><span class="s2">&quot;Customer support pipeline that classifies, resolves, and replies to messages&quot;</span><span class="p">,</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>    <span class="n">context</span><span class="o">=</span><span class="s2">&quot;Tools available: lookup_invoice, check_system_status&quot;</span><span class="p">,</span>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="p">)</span>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="n">tree</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;plan/todo_tree.json&quot;</span><span class="p">)</span>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="nb">print</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">get_subtree_text</span><span class="p">())</span>
+</span></code></pre></div>
+<p>Each node in the tree has:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>Short title (≤8 words)</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>Abstracted solution (≤3 sentences)</td>
+</tr>
+<tr>
+<td><code>why</code></td>
+<td>What problem this addresses (≤3 sentences)</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>pending</code> / <code>in_progress</code> / <code>done</code> / <code>failed</code></td>
+</tr>
+<tr>
+<td><code>is_leaf</code></td>
+<td><code>True</code> when directly implementable by a single workflow or tool</td>
+</tr>
+<tr>
+<td><code>implementation_note</code></td>
+<td>Leaf only — what implements this</td>
+</tr>
+<tr>
+<td><code>workflow_ref</code></td>
+<td>Path to a linked workflow JSON</td>
+</tr>
+<tr>
+<td><code>experiment_refs</code></td>
+<td>Paths to all experiment logs trialled at this node</td>
+</tr>
+</tbody>
+</table>
+<h3 id="link-a-workflow-to-a-leaf-node">Link a workflow to a leaf node<a class="headerlink" href="#link-a-workflow-to-a-leaf-node" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">tree</span> <span class="o">=</span> <span class="n">TodoTree</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="s2">&quot;plan/todo_tree.json&quot;</span><span class="p">)</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="n">leaf_id</span> <span class="o">=</span> <span class="s2">&quot;a3f1&quot;</span>   <span class="c1"># get from tree.get_leaves() or get_subtree_text()</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="n">tree</span><span class="o">.</span><span class="n">attach_workflow</span><span class="p">(</span><span class="n">leaf_id</span><span class="p">,</span> <span class="s2">&quot;plan/workflows/classify.json&quot;</span><span class="p">)</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="n">tree</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;plan/todo_tree.json&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="optimize-with-tree-tracking">Optimize with tree tracking<a class="headerlink" href="#optimize-with-tree-tracking" title="Permanent link">&para;</a></h3>
+<p>Pass <code>todo_tree</code>, <code>tree_node_id</code>, and <code>tree_path</code> to either optimizer to have it write back results automatically:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">src</span><span class="w"> </span><span class="kn">import</span> <span class="n">PromptOptimizer</span><span class="p">,</span> <span class="n">Dataset</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="n">ds</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="s2">&quot;data/examples.json&quot;</span><span class="p">)</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="n">evaluator</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">make_evaluator</span><span class="p">(</span><span class="s2">&quot;final_reply&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;llm_judge&quot;</span><span class="p">,</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>                                  <span class="n">judge_model</span><span class="o">=</span><span class="s2">&quot;groq/llama-3.3-70b-versatile&quot;</span><span class="p">,</span>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>                                  <span class="n">input_cpm</span><span class="o">=</span><span class="mf">0.59</span><span class="p">,</span> <span class="n">output_cpm</span><span class="o">=</span><span class="mf">0.79</span><span class="p">)</span>
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="n">workflow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="s2">&quot;plan/workflows/classify.json&quot;</span><span class="p">)</span>
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="n">optimizer</span> <span class="o">=</span> <span class="n">PromptOptimizer</span><span class="p">(</span><span class="n">workflow</span><span class="p">,</span> <span class="n">evaluator</span><span class="p">,</span> <span class="s2">&quot;groq/llama-3.3-70b-versatile&quot;</span><span class="p">,</span> <span class="mf">0.59</span><span class="p">,</span> <span class="mf">0.79</span><span class="p">)</span>
+</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>
+</span><span id="__span-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="n">workflow</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span>
+</span><span id="__span-19-13"><a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>    <span class="n">examples</span><span class="o">=</span><span class="n">train</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span>
+</span><span id="__span-19-14"><a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a>    <span class="n">checkpoint_dir</span><span class="o">=</span><span class="s2">&quot;checkpoints/&quot;</span><span class="p">,</span>
+</span><span id="__span-19-15"><a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a>    <span class="n">experiment_dir</span><span class="o">=</span><span class="s2">&quot;experiments/&quot;</span><span class="p">,</span>
+</span><span id="__span-19-16"><a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a>    <span class="n">todo_tree</span><span class="o">=</span><span class="n">tree</span><span class="p">,</span>
+</span><span id="__span-19-17"><a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a>    <span class="n">tree_node_id</span><span class="o">=</span><span class="n">leaf_id</span><span class="p">,</span>
+</span><span id="__span-19-18"><a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a>    <span class="n">tree_path</span><span class="o">=</span><span class="s2">&quot;plan/todo_tree.json&quot;</span><span class="p">,</span>   <span class="c1"># saved after every round that changes the tree</span>
+</span><span id="__span-19-19"><a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>After optimization:
+- Every experiment log path is appended to <code>node.experiment_refs</code>
+- If any round was accepted → <code>node.status = "done"</code>
+- If no round improved → <code>node.status = "failed"</code> (branch kept, never deleted)</p>
+<h3 id="inspect-the-tree">Inspect the tree<a class="headerlink" href="#inspect-the-tree" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Full tree render</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="nb">print</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">get_subtree_text</span><span class="p">())</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># Compact one-level summary (useful as optimizer context)</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="c1"># Leaves that still need workflows</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="n">leaves</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get_leaves</span><span class="p">()</span>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="c1"># All failed branches — what was tried and didn&#39;t work</span>
+</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="n">failures</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get_failed_branches</span><span class="p">()</span>
+</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a><span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">failures</span><span class="p">:</span>
+</span><span id="__span-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: tried </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">experiment_refs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="extend-a-node-manually">Extend a node manually<a class="headerlink" href="#extend-a-node-manually" title="Permanent link">&para;</a></h3>
+<p>Add child nodes to an existing node to model a new sub-problem discovered during optimization:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="n">child_id</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>    <span class="n">parent_id</span><span class="o">=</span><span class="n">leaf_id</span><span class="p">,</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Handle invoice lookup failures&quot;</span><span class="p">,</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Gracefully recover when lookup_invoice returns an error.&quot;</span><span class="p">,</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>    <span class="n">why</span><span class="o">=</span><span class="s2">&quot;5</span><span class="si">% o</span><span class="s2">f billing disputes fail because the invoice ID is missing or malformed.&quot;</span><span class="p">,</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>    <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>    <span class="n">implementation_note</span><span class="o">=</span><span class="s2">&quot;Add a fallback React step that prompts user for a valid ID.&quot;</span><span class="p">,</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="p">)</span>
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="n">tree</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;plan/todo_tree.json&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Or use <code>Planner.extend()</code> to decompose an existing node automatically:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="n">tree</span> <span class="o">=</span> <span class="n">planner</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">node_id</span><span class="o">=</span><span class="n">leaf_id</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="s2">&quot;lookup_invoice can return None&quot;</span><span class="p">)</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="n">tree</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;plan/todo_tree.json&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="loading-an-existing-tree">Loading an existing tree<a class="headerlink" href="#loading-an-existing-tree" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">tree</span> <span class="o">=</span> <span class="n">TodoTree</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="s2">&quot;plan/todo_tree.json&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "content.code.annotate", "navigation.tabs", "navigation.top", "navigation.sections", "search.highlight", "search.suggest"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

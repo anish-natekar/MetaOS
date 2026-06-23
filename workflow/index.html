@@ -1,0 +1,1557 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Build, run, and optimize multi-step AI agent workflows">
+      
+      
+      
+      
+        <link rel="prev" href="../operators/">
+      
+      
+        <link rel="next" href="../optimization/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Workflows - MetaOS</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#workflow" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="MetaOS" class="md-header__button md-logo" aria-label="MetaOS" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MetaOS
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Workflows
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/anishsan/MetaOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MetaOS
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../operators/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Operators
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Workflows
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../optimization/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Optimization & Planning
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MetaOS" class="md-nav__button md-logo" aria-label="MetaOS" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MetaOS
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/anishsan/MetaOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MetaOS
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#json-file-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON File Structure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="JSON File Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#operator-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operator Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#state-and-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State and Templates
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="State and Templates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cot-outputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CoT outputs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#state-is-append-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State is append-only
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#execution-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Execution Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sequential-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sequential steps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parallel-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parallel steps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conditional-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conditional steps
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prompt-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prompt Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#self-consistency-n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Self-Consistency (n)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run Logging
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpointing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpointing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-tools-with-react" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Tools with React
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#full-example-customer-support-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full Example: Customer Support Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#async-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Async Usage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accessing-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accessing Metrics
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optimization & Planning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#json-file-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON File Structure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="JSON File Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#operator-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operator Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#state-and-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State and Templates
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="State and Templates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cot-outputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CoT outputs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#state-is-append-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State is append-only
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#execution-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Execution Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sequential-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sequential steps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parallel-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parallel steps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conditional-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conditional steps
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prompt-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prompt Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#self-consistency-n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Self-Consistency (n)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run Logging
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpointing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpointing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-tools-with-react" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Tools with React
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#full-example-customer-support-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full Example: Customer Support Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#async-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Async Usage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accessing-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accessing Metrics
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="workflow">Workflow<a class="headerlink" href="#workflow" title="Permanent link">&para;</a></h1>
+<p>A <code>Workflow</code> chains agentic operators into a directed execution graph defined in a JSON file. Each step calls one operator, writes its output to shared state, and later steps can reference that output in their prompts. Independent steps run in parallel automatically.</p>
+<hr />
+<h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
+<p><strong>1. Define your workflow in JSON:</strong></p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;my_workflow&quot;</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">&quot;operators&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">&quot;classifier&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;router&quot;</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;llama-3.3-70b-versatile&quot;</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">&quot;input_cpm&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.59</span><span class="p">,</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">      </span><span class="nt">&quot;output_cpm&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.79</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="nt">&quot;writer&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cot&quot;</span><span class="p">,</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">      </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;llama-3.3-70b-versatile&quot;</span><span class="p">,</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">      </span><span class="nt">&quot;input_cpm&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.59</span><span class="p">,</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">      </span><span class="nt">&quot;output_cpm&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.79</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="nt">&quot;steps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;classify&quot;</span><span class="p">,</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">      </span><span class="nt">&quot;operator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;classifier&quot;</span><span class="p">,</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">      </span><span class="nt">&quot;prompt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Classify this text: {input_text}&quot;</span><span class="p">,</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">      </span><span class="nt">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;routes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;positive&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;negative&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;neutral&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">      </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sentiment&quot;</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;respond&quot;</span><span class="p">,</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">      </span><span class="nt">&quot;operator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;writer&quot;</span><span class="p">,</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">      </span><span class="nt">&quot;prompt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Write a {sentiment} response to: {input_text}&quot;</span><span class="p">,</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">      </span><span class="nt">&quot;depends_on&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;classify&quot;</span><span class="p">],</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="w">      </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;reply&quot;</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="w">  </span><span class="p">]</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>2. Run it from Python:</strong></p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">src.workflow</span><span class="w"> </span><span class="kn">import</span> <span class="n">Workflow</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">workflow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="s2">&quot;my_workflow.json&quot;</span><span class="p">)</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">result</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">run</span><span class="p">({</span><span class="s2">&quot;input_text&quot;</span><span class="p">:</span> <span class="s2">&quot;Your product is amazing!&quot;</span><span class="p">})</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;sentiment&quot;</span><span class="p">])</span>       <span class="c1"># &quot;positive&quot;</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;reply&quot;</span><span class="p">])</span>           <span class="c1"># CoT output dict</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;reply&quot;</span><span class="p">][</span><span class="s2">&quot;answer&quot;</span><span class="p">])</span> <span class="c1"># the final written response</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="nb">print</span><span class="p">(</span><span class="n">workflow</span><span class="o">.</span><span class="n">metrics</span><span class="p">)</span>          <span class="c1"># tokens, cost, latency</span>
+</span></code></pre></div>
+<hr />
+<h2 id="json-file-structure">JSON File Structure<a class="headerlink" href="#json-file-structure" title="Permanent link">&para;</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>{
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  &quot;name&quot;: str,           — workflow name (used in logging)
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  &quot;operators&quot;: { ... },  — operator instances available to steps
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  &quot;steps&quot;: [ ... ]       — ordered list of steps to execute
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>}
+</span></code></pre></div>
+<h3 id="operator-fields">Operator Fields<a class="headerlink" href="#operator-fields" title="Permanent link">&para;</a></h3>
+<p>Each key under <code>"operators"</code> is a name you choose. Steps reference it by that name.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td>yes</td>
+<td><code>"cot"</code>, <code>"react"</code>, <code>"router"</code>, or <code>"predict"</code></td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td>yes</td>
+<td>model name string (e.g. <code>"llama-3.3-70b-versatile"</code>)</td>
+</tr>
+<tr>
+<td><code>input_cpm</code></td>
+<td>yes</td>
+<td>cost per million input tokens (float)</td>
+</tr>
+<tr>
+<td><code>output_cpm</code></td>
+<td>yes</td>
+<td>cost per million output tokens (float)</td>
+</tr>
+<tr>
+<td><code>n</code></td>
+<td>no</td>
+<td>number of independent calls for self-consistency. Default: <code>1</code> (single call). When <code>n &gt; 1</code>, calls run in parallel and the majority answer wins.</td>
+</tr>
+<tr>
+<td><code>system_prompt</code></td>
+<td>no</td>
+<td>overrides the operator's built-in default system prompt</td>
+</tr>
+<tr>
+<td><code>tools</code></td>
+<td>no</td>
+<td>list of tool name strings — React only. Names must match keys in the <code>tools={}</code> dict passed to <code>from_json</code></td>
+</tr>
+<tr>
+<td><code>max_iterations</code></td>
+<td>no</td>
+<td>max tool loop iterations — React only. Default: <code>5</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="step-fields">Step Fields<a class="headerlink" href="#step-fields" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>yes</td>
+<td>unique name for this step</td>
+</tr>
+<tr>
+<td><code>operator</code></td>
+<td>yes</td>
+<td>must match a key defined under <code>"operators"</code></td>
+</tr>
+<tr>
+<td><code>prompt</code></td>
+<td>no*</td>
+<td>inline template string — <code>{key}</code> placeholders are filled from state</td>
+</tr>
+<tr>
+<td><code>prompt_file</code></td>
+<td>no*</td>
+<td>path to a <code>.md</code> prompt file, relative to the workflow JSON's directory. <code>prompt_file</code> takes precedence if both are present.</td>
+</tr>
+<tr>
+<td><code>output</code></td>
+<td>yes</td>
+<td>the state key under which this step's result is stored</td>
+</tr>
+<tr>
+<td><code>depends_on</code></td>
+<td>no</td>
+<td>list of step <code>id</code>s that must complete before this step runs. Default: <code>[]</code></td>
+</tr>
+<tr>
+<td><code>condition</code></td>
+<td>no</td>
+<td>expression like <code>"{sentiment} == 'billing'"</code> — step is skipped if false, output set to <code>null</code></td>
+</tr>
+<tr>
+<td><code>args</code></td>
+<td>no</td>
+<td>extra kwargs passed to the operator call. Use <code>routes</code> for Router, or <code>max_iterations</code> to override React's default per step</td>
+</tr>
+</tbody>
+</table>
+<p>*Either <code>prompt</code> or <code>prompt_file</code> must be provided.</p>
+<hr />
+<h2 id="state-and-templates">State and Templates<a class="headerlink" href="#state-and-templates" title="Permanent link">&para;</a></h2>
+<p>Every value in the workflow — initial inputs and step outputs — lives in a single flat dict called <strong>state</strong>. As steps complete, their output is added to state under their <code>output</code> key.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Initial state:  { &quot;query&quot;: &quot;What is X?&quot;, &quot;language&quot;: &quot;English&quot; }
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>After step 1:   { &quot;query&quot;: &quot;...&quot;, &quot;language&quot;: &quot;...&quot;, &quot;category&quot;: &quot;factual&quot; }
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>After step 2:   { &quot;query&quot;: &quot;...&quot;, &quot;language&quot;: &quot;...&quot;, &quot;category&quot;: &quot;...&quot;, &quot;findings&quot;: &quot;...&quot; }
+</span></code></pre></div>
+<p>Reference any state value in a prompt using <code>{key}</code>:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">&quot;prompt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Research this {category} topic in {language}: {query}&quot;</span>
+</span></code></pre></div>
+<h3 id="cot-outputs">CoT outputs<a class="headerlink" href="#cot-outputs" title="Permanent link">&para;</a></h3>
+<p><code>CoT</code> steps store their output as a dict with two fields. Use subscript syntax to access them:</p>
+<table>
+<thead>
+<tr>
+<th>Template</th>
+<th>Resolves to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{report}</code></td>
+<td>the full dict (e.g. <code>{'reasoning': '...', 'answer': '...'}</code>)</td>
+</tr>
+<tr>
+<td><code>{report[answer]}</code></td>
+<td>just the final answer string</td>
+</tr>
+<tr>
+<td><code>{report[reasoning]}</code></td>
+<td>just the reasoning string</td>
+</tr>
+</tbody>
+</table>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">&quot;prompt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Summarize this answer concisely: {report[answer]}&quot;</span>
+</span></code></pre></div>
+<h3 id="state-is-append-only">State is append-only<a class="headerlink" href="#state-is-append-only" title="Permanent link">&para;</a></h3>
+<p>Once a key is written to state it cannot be overwritten. The workflow raises at:
+- <strong>Init time</strong> — if two steps share the same <code>output</code> key
+- <strong>Run time</strong> — if any input key you pass to <code>run()</code> conflicts with a step's <code>output</code> key</p>
+<p>This ensures the full state at the end of a run is a complete, unambiguous trace of every value produced.</p>
+<hr />
+<h2 id="execution-model">Execution Model<a class="headerlink" href="#execution-model" title="Permanent link">&para;</a></h2>
+<h3 id="sequential-steps">Sequential steps<a class="headerlink" href="#sequential-steps" title="Permanent link">&para;</a></h3>
+<p>A step with <code>depends_on</code> waits for those steps to finish first:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;step_a&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;result_a&quot;</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;step_b&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;depends_on&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;step_a&quot;</span><span class="p">],</span><span class="w"> </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;result_b&quot;</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="parallel-steps">Parallel steps<a class="headerlink" href="#parallel-steps" title="Permanent link">&para;</a></h3>
+<p>Steps with no dependency on each other run simultaneously. The workflow detects this automatically from the <code>depends_on</code> graph:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;summarise_a&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;summary_a&quot;</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;summarise_b&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;summary_b&quot;</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="p">{</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;compare&quot;</span><span class="p">,</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="nt">&quot;depends_on&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;summarise_a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;summarise_b&quot;</span><span class="p">],</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">  </span><span class="nt">&quot;prompt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Compare:\nA: {summary_a[answer]}\nB: {summary_b[answer]}&quot;</span><span class="p">,</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">  </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;comparison&quot;</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><code>summarise_a</code> and <code>summarise_b</code> fire at the same time. <code>compare</code> waits until both finish.</p>
+<blockquote>
+<p><strong>Note:</strong> <code>CoT</code> and <code>React</code> operators are stateful (they use internal conversation history). Two parallel steps must <strong>not</strong> share the same operator instance. Define separate operator entries for each parallel step.</p>
+</blockquote>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">&quot;operators&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">&quot;writer_a&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cot&quot;</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="nt">&quot;writer_b&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cot&quot;</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="conditional-steps">Conditional steps<a class="headerlink" href="#conditional-steps" title="Permanent link">&para;</a></h3>
+<p>A step with a <code>condition</code> is skipped (output = <code>null</code>) if the condition is false. Use conditions to implement branching after a Router step:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;billing_handler&quot;</span><span class="p">,</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">&quot;depends_on&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;classify&quot;</span><span class="p">],</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">&quot;condition&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{department} == &#39;billing&#39;&quot;</span><span class="p">,</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;resolution&quot;</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Conditions must use <code>==</code> or <code>!=</code> comparisons on string values. The <code>{key}</code> placeholder is replaced with the actual state value before evaluation.</p>
+<p>When branching on a Router, make your conditions mutually exclusive and ensure they all write to the same <code>output</code> key — exactly one branch runs, so only one write happens.</p>
+<hr />
+<h2 id="prompt-files">Prompt Files<a class="headerlink" href="#prompt-files" title="Permanent link">&para;</a></h2>
+<p>Long or structured prompts can live in separate <code>.md</code> files instead of inline in the JSON. Markdown lets you use headers, lists, and code blocks to write clearer prompts.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>my_workflow/
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>  workflow.json
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>  prompts/
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    classify.md
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    handle_billing.md
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    write_reply.md
+</span></code></pre></div>
+<p>Reference a prompt file in a step using <code>prompt_file</code> (path relative to the workflow JSON):</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p">{</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;classify&quot;</span><span class="p">,</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="nt">&quot;operator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;classifier&quot;</span><span class="p">,</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span><span class="nt">&quot;prompt_file&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;prompts/classify.md&quot;</span><span class="p">,</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">  </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;category&quot;</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><code>prompts/classify.md</code>:
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="gu">## Role</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>You are a customer support classifier.
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="gu">## Task</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>Classify the following message into exactly one of the provided categories.
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="gs">**Message:**</span> {message}
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="gs">**Customer tier:**</span> {tier}
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="gu">## Rules</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="k">-</span><span class="w"> </span>Be decisive — return only the category name
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="k">-</span><span class="w"> </span>If ambiguous between billing and technical, prefer billing
+</span></code></pre></div></p>
+<p><code>{key}</code> template variables work identically in <code>.md</code> files. Literal <code>{</code> or <code>}</code> must be escaped as <code>{{</code> or <code>}}</code>.</p>
+<hr />
+<h2 id="self-consistency-n">Self-Consistency (<code>n</code>)<a class="headerlink" href="#self-consistency-n" title="Permanent link">&para;</a></h2>
+<p>Every operator supports running <code>n</code> independent calls in parallel and returning the majority answer. Useful when reliability matters more than latency.</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nt">&quot;operators&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">&quot;fact_checker&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;predict&quot;</span><span class="p">,</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;llama-3.3-70b-versatile&quot;</span><span class="p">,</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="nt">&quot;input_cpm&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.59</span><span class="p">,</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="nt">&quot;output_cpm&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.79</span><span class="p">,</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">    </span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">  </span><span class="nt">&quot;analyser&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cot&quot;</span><span class="p">,</span>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">    </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;llama-3.3-70b-versatile&quot;</span><span class="p">,</span>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">    </span><span class="nt">&quot;input_cpm&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.59</span><span class="p">,</span>
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="w">    </span><span class="nt">&quot;output_cpm&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.79</span><span class="p">,</span>
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="w">    </span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span>
+</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="p">}</span>
+</span></code></pre></div>
+<ul>
+<li><strong><code>Predict</code></strong> (new): a single plain LLM call with no reasoning step. With <code>n &gt; 1</code> it becomes self-consistent prediction — the simplest form of majority vote.</li>
+<li><strong><code>CoT</code></strong> with <code>n &gt; 1</code>: runs <code>n</code> full reasoning chains, votes on the final <code>answer</code> field, returns <code>(reasoning, winning_answer)</code> from the first run that produced the winning answer.</li>
+<li><strong><code>Router</code></strong> and <strong><code>React</code></strong> with <code>n &gt; 1</code>: majority vote on the output string.</li>
+</ul>
+<hr />
+<h2 id="run-logging">Run Logging<a class="headerlink" href="#run-logging" title="Permanent link">&para;</a></h2>
+<p>Pass <code>log_dir</code> to <code>run()</code> to write a timestamped directory of files after each run:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">result</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">log_dir</span><span class="o">=</span><span class="s2">&quot;runs/&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>runs/
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>  20260623_143022/
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>    inputs.json    — inputs passed to run()
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>    state.json     — full flat state (every intermediate + final value)
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>    metrics.json   — per-operator token counts, cost, latency
+</span></code></pre></div>
+<p>Each run gets its own directory, so logs never overwrite each other. <code>state.json</code> is the primary input for the optimizer — it records the full chain of intermediate outputs.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Also works with arun()</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">workflow</span><span class="o">.</span><span class="n">arun</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">log_dir</span><span class="o">=</span><span class="s2">&quot;runs/&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="checkpointing">Checkpointing<a class="headerlink" href="#checkpointing" title="Permanent link">&para;</a></h2>
+<p>A checkpoint captures the complete frozen state of a workflow version — structure, all resolved prompt text, and optional performance metadata — in a single self-contained JSON file.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Save current workflow as a checkpoint</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="n">workflow</span><span class="o">.</span><span class="n">save_checkpoint</span><span class="p">(</span><span class="s2">&quot;checkpoints/v1.json&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;baseline&quot;</span><span class="p">)</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1"># Attach eval metrics when saving</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="n">workflow</span><span class="o">.</span><span class="n">save_checkpoint</span><span class="p">(</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>    <span class="s2">&quot;checkpoints/v2.json&quot;</span><span class="p">,</span>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;after prompt opt round 1&quot;</span><span class="p">,</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>    <span class="n">metrics</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;avg_score&quot;</span><span class="p">:</span> <span class="mf">0.87</span><span class="p">,</span> <span class="s2">&quot;n_eval_runs&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="p">)</span>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="c1"># Load a checkpoint (fully self-contained — no separate prompt files needed)</span>
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="n">workflow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="o">.</span><span class="n">from_checkpoint</span><span class="p">(</span><span class="s2">&quot;checkpoints/v1.json&quot;</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">{</span><span class="o">...</span><span class="p">})</span>
+</span></code></pre></div>
+<p>Checkpoint file format:
+<div class="language-json highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="p">{</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-06-23T14:30:00&quot;</span><span class="p">,</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;baseline&quot;</span><span class="p">,</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">  </span><span class="nt">&quot;workflow&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="kc">full</span><span class="w"> </span><span class="err">work</span><span class="kc">fl</span><span class="err">ow.jso</span><span class="kc">n</span><span class="w"> </span><span class="err">co</span><span class="kc">ntent</span><span class="err">...</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">  </span><span class="nt">&quot;prompts&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">    </span><span class="nt">&quot;classify&quot;</span><span class="p">:</span><span class="w">       </span><span class="s2">&quot;resolved prompt text...&quot;</span><span class="p">,</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="w">    </span><span class="nt">&quot;handle_billing&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;resolved prompt text...&quot;</span>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="w">  </span><span class="nt">&quot;metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="w">    </span><span class="nt">&quot;avg_score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.82</span><span class="p">,</span>
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="w">    </span><span class="nt">&quot;n_eval_runs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span>
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<p>Prompts are stored as resolved text (not file paths), so checkpoints are fully self-contained: shareable, diffable, and git-committable. <code>from_checkpoint</code> is identical to <code>from_json</code> except it reads the embedded workflow and prompts from the checkpoint block.</p>
+<hr />
+<h2 id="using-tools-with-react">Using Tools with React<a class="headerlink" href="#using-tools-with-react" title="Permanent link">&para;</a></h2>
+<p>Tools are Python callables registered in Python (they can't go in JSON). Pass them as a dict to <code>from_json</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">lookup_invoice</span><span class="p">(</span><span class="n">invoice_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Look up invoice details by ID.&quot;&quot;&quot;</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Invoice </span><span class="si">{</span><span class="n">invoice_id</span><span class="si">}</span><span class="s2">: $49.99, paid on 2026-05-01.&quot;</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">check_system_status</span><span class="p">(</span><span class="n">service</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Check the operational status of a service.&quot;&quot;&quot;</span>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">service</span><span class="si">}</span><span class="s2"> is operational.&quot;</span>
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="n">workflow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span>
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>    <span class="s2">&quot;support.json&quot;</span><span class="p">,</span>
+</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>    <span class="n">tools</span><span class="o">=</span><span class="p">{</span>
+</span><span id="__span-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a>        <span class="s2">&quot;lookup_invoice&quot;</span><span class="p">:</span> <span class="n">lookup_invoice</span><span class="p">,</span>
+</span><span id="__span-19-13"><a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>        <span class="s2">&quot;check_system_status&quot;</span><span class="p">:</span> <span class="n">check_system_status</span><span class="p">,</span>
+</span><span id="__span-19-14"><a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a>    <span class="p">}</span>
+</span><span id="__span-19-15"><a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>In the JSON, reference them by their dict key:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nt">&quot;operators&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">  </span><span class="nt">&quot;support_agent&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;react&quot;</span><span class="p">,</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">    </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;llama-3.3-70b-versatile&quot;</span><span class="p">,</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">    </span><span class="nt">&quot;input_cpm&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.59</span><span class="p">,</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w">    </span><span class="nt">&quot;output_cpm&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.79</span><span class="p">,</span>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="w">    </span><span class="nt">&quot;tools&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;lookup_invoice&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;check_system_status&quot;</span><span class="p">],</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="w">    </span><span class="nt">&quot;max_iterations&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Tool functions <strong>must have type annotations and a docstring</strong> — the schema sent to the LLM is generated from these automatically.</p>
+<hr />
+<h2 id="full-example-customer-support-pipeline">Full Example: Customer Support Pipeline<a class="headerlink" href="#full-example-customer-support-pipeline" title="Permanent link">&para;</a></h2>
+<p>Classifies an incoming message, routes it to the right specialist agent, and writes a polished reply.</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="p">{</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;customer_support&quot;</span><span class="p">,</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="w">  </span><span class="nt">&quot;operators&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="w">    </span><span class="nt">&quot;classifier&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;router&quot;</span><span class="p">,</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="w">      </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;llama-3.3-70b-versatile&quot;</span><span class="p">,</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="w">      </span><span class="nt">&quot;input_cpm&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.59</span><span class="p">,</span>
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="w">      </span><span class="nt">&quot;output_cpm&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.79</span><span class="p">,</span>
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="w">      </span><span class="nt">&quot;system_prompt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;You are a customer support classifier. Be decisive.&quot;</span>
+</span><span id="__span-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-21-12"><a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a><span class="w">    </span><span class="nt">&quot;billing_agent&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-21-13"><a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a><span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;react&quot;</span><span class="p">,</span>
+</span><span id="__span-21-14"><a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a><span class="w">      </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;llama-3.3-70b-versatile&quot;</span><span class="p">,</span>
+</span><span id="__span-21-15"><a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a><span class="w">      </span><span class="nt">&quot;input_cpm&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.59</span><span class="p">,</span>
+</span><span id="__span-21-16"><a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a><span class="w">      </span><span class="nt">&quot;output_cpm&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.79</span><span class="p">,</span>
+</span><span id="__span-21-17"><a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a><span class="w">      </span><span class="nt">&quot;tools&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;lookup_invoice&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;check_subscription&quot;</span><span class="p">],</span>
+</span><span id="__span-21-18"><a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a><span class="w">      </span><span class="nt">&quot;max_iterations&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span>
+</span><span id="__span-21-19"><a id="__codelineno-21-19" name="__codelineno-21-19" href="#__codelineno-21-19"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-21-20"><a id="__codelineno-21-20" name="__codelineno-21-20" href="#__codelineno-21-20"></a><span class="w">    </span><span class="nt">&quot;tech_agent&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-21-21"><a id="__codelineno-21-21" name="__codelineno-21-21" href="#__codelineno-21-21"></a><span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;react&quot;</span><span class="p">,</span>
+</span><span id="__span-21-22"><a id="__codelineno-21-22" name="__codelineno-21-22" href="#__codelineno-21-22"></a><span class="w">      </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;llama-3.3-70b-versatile&quot;</span><span class="p">,</span>
+</span><span id="__span-21-23"><a id="__codelineno-21-23" name="__codelineno-21-23" href="#__codelineno-21-23"></a><span class="w">      </span><span class="nt">&quot;input_cpm&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.59</span><span class="p">,</span>
+</span><span id="__span-21-24"><a id="__codelineno-21-24" name="__codelineno-21-24" href="#__codelineno-21-24"></a><span class="w">      </span><span class="nt">&quot;output_cpm&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.79</span><span class="p">,</span>
+</span><span id="__span-21-25"><a id="__codelineno-21-25" name="__codelineno-21-25" href="#__codelineno-21-25"></a><span class="w">      </span><span class="nt">&quot;tools&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;search_docs&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;check_system_status&quot;</span><span class="p">],</span>
+</span><span id="__span-21-26"><a id="__codelineno-21-26" name="__codelineno-21-26" href="#__codelineno-21-26"></a><span class="w">      </span><span class="nt">&quot;max_iterations&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span>
+</span><span id="__span-21-27"><a id="__codelineno-21-27" name="__codelineno-21-27" href="#__codelineno-21-27"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-21-28"><a id="__codelineno-21-28" name="__codelineno-21-28" href="#__codelineno-21-28"></a><span class="w">    </span><span class="nt">&quot;general_agent&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-21-29"><a id="__codelineno-21-29" name="__codelineno-21-29" href="#__codelineno-21-29"></a><span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cot&quot;</span><span class="p">,</span>
+</span><span id="__span-21-30"><a id="__codelineno-21-30" name="__codelineno-21-30" href="#__codelineno-21-30"></a><span class="w">      </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;llama-3.3-70b-versatile&quot;</span><span class="p">,</span>
+</span><span id="__span-21-31"><a id="__codelineno-21-31" name="__codelineno-21-31" href="#__codelineno-21-31"></a><span class="w">      </span><span class="nt">&quot;input_cpm&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.59</span><span class="p">,</span>
+</span><span id="__span-21-32"><a id="__codelineno-21-32" name="__codelineno-21-32" href="#__codelineno-21-32"></a><span class="w">      </span><span class="nt">&quot;output_cpm&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.79</span>
+</span><span id="__span-21-33"><a id="__codelineno-21-33" name="__codelineno-21-33" href="#__codelineno-21-33"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-21-34"><a id="__codelineno-21-34" name="__codelineno-21-34" href="#__codelineno-21-34"></a><span class="w">    </span><span class="nt">&quot;responder&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-21-35"><a id="__codelineno-21-35" name="__codelineno-21-35" href="#__codelineno-21-35"></a><span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cot&quot;</span><span class="p">,</span>
+</span><span id="__span-21-36"><a id="__codelineno-21-36" name="__codelineno-21-36" href="#__codelineno-21-36"></a><span class="w">      </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;llama-3.3-70b-versatile&quot;</span><span class="p">,</span>
+</span><span id="__span-21-37"><a id="__codelineno-21-37" name="__codelineno-21-37" href="#__codelineno-21-37"></a><span class="w">      </span><span class="nt">&quot;input_cpm&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.59</span><span class="p">,</span>
+</span><span id="__span-21-38"><a id="__codelineno-21-38" name="__codelineno-21-38" href="#__codelineno-21-38"></a><span class="w">      </span><span class="nt">&quot;output_cpm&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.79</span><span class="p">,</span>
+</span><span id="__span-21-39"><a id="__codelineno-21-39" name="__codelineno-21-39" href="#__codelineno-21-39"></a><span class="w">      </span><span class="nt">&quot;system_prompt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;You write polite, concise customer support replies.&quot;</span>
+</span><span id="__span-21-40"><a id="__codelineno-21-40" name="__codelineno-21-40" href="#__codelineno-21-40"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-21-41"><a id="__codelineno-21-41" name="__codelineno-21-41" href="#__codelineno-21-41"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-21-42"><a id="__codelineno-21-42" name="__codelineno-21-42" href="#__codelineno-21-42"></a>
+</span><span id="__span-21-43"><a id="__codelineno-21-43" name="__codelineno-21-43" href="#__codelineno-21-43"></a><span class="w">  </span><span class="nt">&quot;steps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-21-44"><a id="__codelineno-21-44" name="__codelineno-21-44" href="#__codelineno-21-44"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-21-45"><a id="__codelineno-21-45" name="__codelineno-21-45" href="#__codelineno-21-45"></a><span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;classify&quot;</span><span class="p">,</span>
+</span><span id="__span-21-46"><a id="__codelineno-21-46" name="__codelineno-21-46" href="#__codelineno-21-46"></a><span class="w">      </span><span class="nt">&quot;operator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;classifier&quot;</span><span class="p">,</span>
+</span><span id="__span-21-47"><a id="__codelineno-21-47" name="__codelineno-21-47" href="#__codelineno-21-47"></a><span class="w">      </span><span class="nt">&quot;prompt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Classify this customer message: {message}&quot;</span><span class="p">,</span>
+</span><span id="__span-21-48"><a id="__codelineno-21-48" name="__codelineno-21-48" href="#__codelineno-21-48"></a><span class="w">      </span><span class="nt">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;routes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;billing&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;technical&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;general&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-21-49"><a id="__codelineno-21-49" name="__codelineno-21-49" href="#__codelineno-21-49"></a><span class="w">      </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;department&quot;</span>
+</span><span id="__span-21-50"><a id="__codelineno-21-50" name="__codelineno-21-50" href="#__codelineno-21-50"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-21-51"><a id="__codelineno-21-51" name="__codelineno-21-51" href="#__codelineno-21-51"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-21-52"><a id="__codelineno-21-52" name="__codelineno-21-52" href="#__codelineno-21-52"></a><span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;handle_billing&quot;</span><span class="p">,</span>
+</span><span id="__span-21-53"><a id="__codelineno-21-53" name="__codelineno-21-53" href="#__codelineno-21-53"></a><span class="w">      </span><span class="nt">&quot;operator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;billing_agent&quot;</span><span class="p">,</span>
+</span><span id="__span-21-54"><a id="__codelineno-21-54" name="__codelineno-21-54" href="#__codelineno-21-54"></a><span class="w">      </span><span class="nt">&quot;prompt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Resolve this billing issue for customer {customer_id}: {message}&quot;</span><span class="p">,</span>
+</span><span id="__span-21-55"><a id="__codelineno-21-55" name="__codelineno-21-55" href="#__codelineno-21-55"></a><span class="w">      </span><span class="nt">&quot;depends_on&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;classify&quot;</span><span class="p">],</span>
+</span><span id="__span-21-56"><a id="__codelineno-21-56" name="__codelineno-21-56" href="#__codelineno-21-56"></a><span class="w">      </span><span class="nt">&quot;condition&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{department} == &#39;billing&#39;&quot;</span><span class="p">,</span>
+</span><span id="__span-21-57"><a id="__codelineno-21-57" name="__codelineno-21-57" href="#__codelineno-21-57"></a><span class="w">      </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;resolution&quot;</span>
+</span><span id="__span-21-58"><a id="__codelineno-21-58" name="__codelineno-21-58" href="#__codelineno-21-58"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-21-59"><a id="__codelineno-21-59" name="__codelineno-21-59" href="#__codelineno-21-59"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-21-60"><a id="__codelineno-21-60" name="__codelineno-21-60" href="#__codelineno-21-60"></a><span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;handle_tech&quot;</span><span class="p">,</span>
+</span><span id="__span-21-61"><a id="__codelineno-21-61" name="__codelineno-21-61" href="#__codelineno-21-61"></a><span class="w">      </span><span class="nt">&quot;operator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tech_agent&quot;</span><span class="p">,</span>
+</span><span id="__span-21-62"><a id="__codelineno-21-62" name="__codelineno-21-62" href="#__codelineno-21-62"></a><span class="w">      </span><span class="nt">&quot;prompt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Diagnose and resolve this technical issue: {message}&quot;</span><span class="p">,</span>
+</span><span id="__span-21-63"><a id="__codelineno-21-63" name="__codelineno-21-63" href="#__codelineno-21-63"></a><span class="w">      </span><span class="nt">&quot;depends_on&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;classify&quot;</span><span class="p">],</span>
+</span><span id="__span-21-64"><a id="__codelineno-21-64" name="__codelineno-21-64" href="#__codelineno-21-64"></a><span class="w">      </span><span class="nt">&quot;condition&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{department} == &#39;technical&#39;&quot;</span><span class="p">,</span>
+</span><span id="__span-21-65"><a id="__codelineno-21-65" name="__codelineno-21-65" href="#__codelineno-21-65"></a><span class="w">      </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;resolution&quot;</span>
+</span><span id="__span-21-66"><a id="__codelineno-21-66" name="__codelineno-21-66" href="#__codelineno-21-66"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-21-67"><a id="__codelineno-21-67" name="__codelineno-21-67" href="#__codelineno-21-67"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-21-68"><a id="__codelineno-21-68" name="__codelineno-21-68" href="#__codelineno-21-68"></a><span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;handle_general&quot;</span><span class="p">,</span>
+</span><span id="__span-21-69"><a id="__codelineno-21-69" name="__codelineno-21-69" href="#__codelineno-21-69"></a><span class="w">      </span><span class="nt">&quot;operator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;general_agent&quot;</span><span class="p">,</span>
+</span><span id="__span-21-70"><a id="__codelineno-21-70" name="__codelineno-21-70" href="#__codelineno-21-70"></a><span class="w">      </span><span class="nt">&quot;prompt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Answer this general enquiry: {message}&quot;</span><span class="p">,</span>
+</span><span id="__span-21-71"><a id="__codelineno-21-71" name="__codelineno-21-71" href="#__codelineno-21-71"></a><span class="w">      </span><span class="nt">&quot;depends_on&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;classify&quot;</span><span class="p">],</span>
+</span><span id="__span-21-72"><a id="__codelineno-21-72" name="__codelineno-21-72" href="#__codelineno-21-72"></a><span class="w">      </span><span class="nt">&quot;condition&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{department} == &#39;general&#39;&quot;</span><span class="p">,</span>
+</span><span id="__span-21-73"><a id="__codelineno-21-73" name="__codelineno-21-73" href="#__codelineno-21-73"></a><span class="w">      </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;resolution&quot;</span>
+</span><span id="__span-21-74"><a id="__codelineno-21-74" name="__codelineno-21-74" href="#__codelineno-21-74"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-21-75"><a id="__codelineno-21-75" name="__codelineno-21-75" href="#__codelineno-21-75"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-21-76"><a id="__codelineno-21-76" name="__codelineno-21-76" href="#__codelineno-21-76"></a><span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;write_reply&quot;</span><span class="p">,</span>
+</span><span id="__span-21-77"><a id="__codelineno-21-77" name="__codelineno-21-77" href="#__codelineno-21-77"></a><span class="w">      </span><span class="nt">&quot;operator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;responder&quot;</span><span class="p">,</span>
+</span><span id="__span-21-78"><a id="__codelineno-21-78" name="__codelineno-21-78" href="#__codelineno-21-78"></a><span class="w">      </span><span class="nt">&quot;prompt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Write a customer-facing reply based on this resolution:\n{resolution}&quot;</span><span class="p">,</span>
+</span><span id="__span-21-79"><a id="__codelineno-21-79" name="__codelineno-21-79" href="#__codelineno-21-79"></a><span class="w">      </span><span class="nt">&quot;depends_on&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;handle_billing&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;handle_tech&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;handle_general&quot;</span><span class="p">],</span>
+</span><span id="__span-21-80"><a id="__codelineno-21-80" name="__codelineno-21-80" href="#__codelineno-21-80"></a><span class="w">      </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;final_reply&quot;</span>
+</span><span id="__span-21-81"><a id="__codelineno-21-81" name="__codelineno-21-81" href="#__codelineno-21-81"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-21-82"><a id="__codelineno-21-82" name="__codelineno-21-82" href="#__codelineno-21-82"></a><span class="w">  </span><span class="p">]</span>
+</span><span id="__span-21-83"><a id="__codelineno-21-83" name="__codelineno-21-83" href="#__codelineno-21-83"></a><span class="p">}</span>
+</span></code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="n">result</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">run</span><span class="p">({</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>    <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;I was charged twice this month&quot;</span><span class="p">,</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>    <span class="s2">&quot;customer_id&quot;</span><span class="p">:</span> <span class="s2">&quot;USR-9921&quot;</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="p">})</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;department&quot;</span><span class="p">])</span>                 <span class="c1"># &quot;billing&quot;</span>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;resolution&quot;</span><span class="p">])</span>                 <span class="c1"># React agent&#39;s findings string</span>
+</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;final_reply&quot;</span><span class="p">][</span><span class="s2">&quot;answer&quot;</span><span class="p">])</span>      <span class="c1"># polished customer reply</span>
+</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a><span class="nb">print</span><span class="p">(</span><span class="n">workflow</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;total_cost&quot;</span><span class="p">])</span>       <span class="c1"># total $ spent across all operators</span>
+</span></code></pre></div>
+<hr />
+<h2 id="async-usage">Async Usage<a class="headerlink" href="#async-usage" title="Permanent link">&para;</a></h2>
+<p><code>run()</code> uses <code>asyncio.run()</code> internally and works in scripts. In an environment that already has a running event loop (e.g. Jupyter), use <code>arun()</code> instead:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">workflow</span><span class="o">.</span><span class="n">arun</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">})</span>
+</span></code></pre></div>
+<hr />
+<h2 id="accessing-metrics">Accessing Metrics<a class="headerlink" href="#accessing-metrics" title="Permanent link">&para;</a></h2>
+<p>After a run, <code>workflow.metrics</code> aggregates token usage and cost across all operator instances:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="n">m</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">metrics</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="n">m</span><span class="p">[</span><span class="s2">&quot;total_input_tokens&quot;</span><span class="p">]</span>   <span class="c1"># int</span>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="n">m</span><span class="p">[</span><span class="s2">&quot;total_output_tokens&quot;</span><span class="p">]</span>  <span class="c1"># int</span>
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="n">m</span><span class="p">[</span><span class="s2">&quot;total_cost&quot;</span><span class="p">]</span>           <span class="c1"># float, $ total</span>
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="n">m</span><span class="p">[</span><span class="s2">&quot;total_api_time&quot;</span><span class="p">]</span>       <span class="c1"># float, seconds</span>
+</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="n">m</span><span class="p">[</span><span class="s2">&quot;total_calls&quot;</span><span class="p">]</span>          <span class="c1"># int, total LLM calls made</span>
+</span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="n">m</span><span class="p">[</span><span class="s2">&quot;total_tool_calls&quot;</span><span class="p">]</span>     <span class="c1"># int</span>
+</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="n">m</span><span class="p">[</span><span class="s2">&quot;per_operator&quot;</span><span class="p">]</span>         <span class="c1"># dict keyed by operator name with individual breakdowns</span>
+</span></code></pre></div>
+<p><code>workflow.state</code> holds the complete flat state dict after the run — every input and every step output, in one place.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "content.code.annotate", "navigation.tabs", "navigation.top", "navigation.sections", "search.highlight", "search.suggest"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
